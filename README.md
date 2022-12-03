@@ -27,3 +27,8 @@ has not been solved yet.
 
 All solutions are implemented in TypeScript and the Lambda functions use the
 NodeJS 18.X runtime.
+
+## TODO
+
+- Use CDK integration tests to check correctness after deployment
+- Create some shared code for common patterns for return values

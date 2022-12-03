@@ -10,22 +10,22 @@ function readTestData(name: string): string {
 const sample = readTestData("sample");
 const input = readTestData("personal");
 
-describe("Day N, Part 1", () => {
+describe("Day 2, Part 1", () => {
   it("returns the correct result for sample input", () => {
-    expect(solvePart1(sample)).toBe("");
+    expect(solvePart1(sample)).toBe("15");
   });
 
   it("returns the correct result for personal input", () => {
-    expect(solvePart1(input)).toBe("");
+    expect(solvePart1(input)).toBe("10816");
   });
 });
 
-describe("Day N, Part 2", () => {
+describe("Day 2, Part 2", () => {
   it("returns the correct result for sample input", () => {
-    expect(solvePart2(sample)).toBe(undefined);
+    expect(solvePart2(sample)).toBe("12");
   });
 
   it("return the correct result for personal input", () => {
-    expect(solvePart2(input)).toBe(undefined);
+    expect(solvePart2(input)).toBe("");
   });
 });

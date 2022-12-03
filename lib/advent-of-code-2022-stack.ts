@@ -24,17 +24,19 @@ export class AdventOfCode2022Stack extends cdk.Stack {
     const httpApi = new apigw.HttpApi(this, "Api", {
       defaultIntegration,
     });
-    new AdventOfCodeDay(this, "Day1", {
-      day: 1,
-      api: httpApi,
-      name: "Calorie Counting",
-    });
-    new AdventOfCodeDay(this, "Day2", {
-      day: 2,
-      api: httpApi,
-      name: "Rock Paper Scissors",
-    });
-
+    const supportedDays = [
+      { day: 1, name: "Calorie Counting" },
+      { day: 2, name: "Rock Paper Scissors" },
+      { day: 3, name: "Rucksack Reorganization" },
+    ];
+    supportedDays.map(
+      ({ day, name }) =>
+        new AdventOfCodeDay(this, `Day${day}`, {
+          day,
+          name,
+          api: httpApi,
+        })
+    );
     new cdk.CfnOutput(this, "ApiUrl", { value: httpApi.apiEndpoint });
   }
 }

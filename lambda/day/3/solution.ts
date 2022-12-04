@@ -46,7 +46,6 @@ class Rucksack {
     const { length } = fullSack;
     this.firstCompartment = new Set(fullSack.slice(0, length / 2));
     this.secondCompartment = new Set(fullSack.slice(length / 2));
-    console.log(this.firstCompartment, this.secondCompartment);
   }
 
   get commonItem() {

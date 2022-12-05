@@ -1,14 +1,16 @@
-import {
+import type {
   Context,
   APIGatewayProxyEventV2,
   APIGatewayProxyResultV2,
 } from "aws-lambda";
 import { Logger } from "@aws-lambda-powertools/logger";
-import { NOT_IMPLEMENTED } from "./util";
+import { NOT_IMPLEMENTED } from "./responses";
+import { middlewares } from "./handler";
+import middy from "@middy/core";
 
 const logger = new Logger();
 
-export async function handler(
+async function baseHandler(
   event: APIGatewayProxyEventV2,
   context: Context
 ): Promise<APIGatewayProxyResultV2> {
@@ -20,3 +22,5 @@ export async function handler(
     body,
   };
 }
+
+export const handler = middy(baseHandler).use(middlewares);

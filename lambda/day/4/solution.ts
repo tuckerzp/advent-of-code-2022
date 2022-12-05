@@ -1,9 +1,5 @@
-import type {
-  Context,
-  APIGatewayProxyEventV2,
-  APIGatewayProxyResultV2,
-} from "aws-lambda";
-import { formatError, formatSolution } from "../../util";
+import { DailySolution, handlerBase } from "../../handler";
+import { splitToLines } from "../../util";
 
 class Assignment {
   public readonly start: number;
@@ -32,46 +28,29 @@ class Assignment {
   }
 }
 
-function parseInput(input: string): Assignment[][] {
-  return input
-    .split("\n")
-    .map((line) => line.trim())
-    .filter((line) => line.length)
-    .map((line) => line.split(","))
-    .map(([assignment1, assignment2]) => [
-      new Assignment(assignment1),
-      new Assignment(assignment2),
-    ]);
-}
+class Day4 extends DailySolution {
+  private readonly assignments: [Assignment, Assignment][];
 
-export function solvePart1(input: string): string {
-  return parseInput(input)
-    .filter((pair) => pair[0].contains(pair[1]) || pair[1].contains(pair[0]))
-    .length.toString();
-}
-
-export function solvePart2(input: string): string | undefined {
-  return parseInput(input)
-    .filter((pair) => pair[0].overlaps(pair[1]))
-    .length.toString();
-}
-
-export async function handler(
-  event: APIGatewayProxyEventV2,
-  context: Context
-): Promise<APIGatewayProxyResultV2> {
-  const { body } = event;
-  if (!body) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify(formatError("No input was provided")),
-    };
+  constructor(input: string) {
+    super(input);
+    this.assignments = splitToLines(input)
+      .map((line) => line.split(","))
+      .map(([assignment1, assignment2]) => [
+        new Assignment(assignment1),
+        new Assignment(assignment2),
+      ]);
   }
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(
-      formatSolution(body, solvePart1(body), solvePart2(body))
-    ),
-  };
+  public get part1Solution(): number {
+    return this.assignments.filter(
+      (pair) => pair[0].contains(pair[1]) || pair[1].contains(pair[0])
+    ).length;
+  }
+
+  public get part2Solution(): number {
+    return this.assignments.filter((pair) => pair[0].overlaps(pair[1])).length;
+  }
 }
+
+export const Solver = Day4;
+export const handler = handlerBase(Solver);

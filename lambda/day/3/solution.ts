@@ -1,9 +1,5 @@
-import type {
-  Context,
-  APIGatewayProxyEventV2,
-  APIGatewayProxyResultV2,
-} from "aws-lambda";
-import { formatError, formatSolution } from "../../util";
+import { DailySolution, handlerBase } from "../../handler";
+import { splitToLines } from "../../util";
 
 function itemPriority(item: string): number {
   if (item.length !== 1) {
@@ -58,52 +54,33 @@ class Rucksack {
   }
 }
 
-export function solvePart1(input: string): string {
-  const rucksacks = input
-    .split("\n")
-    .map((line) => line.trim())
-    .filter((line) => line.length);
-  return rucksacks
-    .map((line) => new Rucksack(line))
-    .map((sack) => sack.commonItem)
-    .map((item) => itemPriority(item))
-    .reduce((prev, curr) => prev + curr)
-    .toString();
-}
-
-export function solvePart2(input: string): string | undefined {
-  const rucksacks = input
-    .split("\n")
-    .map((line) => line.trim())
-    .filter((line) => line.length);
-  const elfGroups: string[][] = [];
-  while (rucksacks.length) {
-    elfGroups.push(rucksacks.splice(0, 3));
-  }
-  return elfGroups
-    .map((group) => new ElfGroup(group))
-    .map((group) => group.commonItem)
-    .map((item) => itemPriority(item))
-    .reduce((prev, curr) => prev + curr)
-    .toString();
-}
-
-export async function handler(
-  event: APIGatewayProxyEventV2,
-  context: Context
-): Promise<APIGatewayProxyResultV2> {
-  const { body } = event;
-  if (!body) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify(formatError("No input was provided")),
-    };
+export class Day3 extends DailySolution {
+  private readonly rucksackData: string[];
+  constructor(input: string) {
+    super(input);
+    this.rucksackData = splitToLines(input);
   }
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(
-      formatSolution(body, solvePart1(body), solvePart2(body))
-    ),
-  };
+  public get part1Solution(): number {
+    return this.rucksackData
+      .map((line) => new Rucksack(line))
+      .map((sack) => sack.commonItem)
+      .map((item) => itemPriority(item))
+      .reduce((prev, curr) => prev + curr);
+  }
+
+  public get part2Solution(): number {
+    const elfGroups: string[][] = [];
+    for (let i = 0; i < this.rucksackData.length; i += 3) {
+      elfGroups.push(this.rucksackData.slice(i, i + 3));
+    }
+    return elfGroups
+      .map((group) => new ElfGroup(group))
+      .map((group) => group.commonItem)
+      .map((item) => itemPriority(item))
+      .reduce((prev, curr) => prev + curr);
+  }
 }
+
+export const Solver = Day3;
+export const handler = handlerBase(Solver);

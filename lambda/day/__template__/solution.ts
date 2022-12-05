@@ -1,34 +1,18 @@
-import type {
-  Context,
-  APIGatewayProxyEventV2,
-  APIGatewayProxyResultV2,
-} from "aws-lambda";
-import { formatError, formatSolution } from "../../util";
+import { DailySolution, handlerBase } from "../../handler";
 
-export function solvePart1(input: string): string {
-  return "";
-}
-
-export function solvePart2(input: string): string | undefined {
-  return undefined;
-}
-
-export async function handler(
-  event: APIGatewayProxyEventV2,
-  context: Context
-): Promise<APIGatewayProxyResultV2> {
-  const { body } = event;
-  if (!body) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify(formatError("No input was provided")),
-    };
+export class Solver extends DailySolution {
+  // eslint-disable-next-line no-useless-constructor
+  constructor(input: string) {
+    super(input);
   }
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(
-      formatSolution(body, solvePart1(body), solvePart2(body))
-    ),
-  };
+  public get part1Solution(): number | undefined {
+    return undefined;
+  }
+
+  public get part2Solution(): number | undefined {
+    return undefined;
+  }
 }
+
+export const handler = handlerBase(Solver);

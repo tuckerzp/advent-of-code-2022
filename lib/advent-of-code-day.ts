@@ -18,8 +18,10 @@ export class AdventOfCodeDay extends Construct {
     const fn = new nodejs.NodejsFunction(this, `SolutionDay${props.day}`, {
       entry: codePath,
       runtime: lambda.Runtime.NODEJS_18_X,
+      tracing: lambda.Tracing.ACTIVE,
     });
     props.api.addRoutes({
+      methods: [apigw.HttpMethod.POST],
       path: `/day/${props.day}/solution`,
       integration: new HttpLambdaIntegration(
         `SolutionIntegrationDay${props.day}`,

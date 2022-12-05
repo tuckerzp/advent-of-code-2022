@@ -1,17 +1,13 @@
-import type {
-  Context,
-  APIGatewayProxyEventV2,
-  APIGatewayProxyResultV2,
-} from "aws-lambda";
-import { formatError, formatSolution } from "../../util";
+import { DailySolution, handlerBase } from "../../handler";
+import { splitToLines } from "../../util";
 
-enum Outcome {
+const enum Outcome {
   WIN = 6,
   DRAW = 3,
   LOSS = 0,
 }
 
-enum Choice {
+const enum Choice {
   ROCK = 1,
   PAPER = 2,
   SCISSORS = 3,
@@ -77,52 +73,35 @@ function isPlayerChoice(str: string): str is PlayerChoice & DesiredOutcome {
   return ["X", "Y", "Z"].includes(str);
 }
 
-export function solvePart1(input: string): string {
-  const lines = input
-    .split("\n")
-    .map((line) => line.trim())
-    .filter((line) => line.length);
-  const turns = lines.map((line) => {
-    const [opponentKey, playerKey] = line.split(" ");
-    if (!isOpponentChoice(opponentKey) || !isPlayerChoice(playerKey)) {
-      throw new Error(`Invalid line: ${opponentKey} ${playerKey}`);
-    }
-    return part1Lookup[opponentKey][playerKey];
-  });
-  return turns.reduce((prev, curr) => prev + curr).toString();
-}
-
-export function solvePart2(input: string): string | undefined {
-  const lines = input
-    .split("\n")
-    .map((line) => line.trim())
-    .filter((line) => line.length);
-  const turns = lines.map((line) => {
-    const [opponentKey, playerKey] = line.split(" ");
-    if (!isOpponentChoice(opponentKey) || !isPlayerChoice(playerKey)) {
-      throw new Error(`Invalid line: ${opponentKey} ${playerKey}`);
-    }
-    return part2Lookup[opponentKey][playerKey];
-  });
-  return turns.reduce((prev, curr) => prev + curr).toString();
-}
-
-export async function handler(
-  event: APIGatewayProxyEventV2,
-  context: Context
-): Promise<APIGatewayProxyResultV2> {
-  const { body } = event;
-  if (!body) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify(formatError("No input was provided")),
-    };
+class Day2 extends DailySolution {
+  private readonly lines: string[];
+  constructor(input: string) {
+    super(input);
+    this.lines = splitToLines(input);
   }
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(
-      formatSolution(body, solvePart1(body), solvePart2(body))
-    ),
-  };
+  public get part1Solution(): number {
+    const turns = this.lines.map((line) => {
+      const [opponentKey, playerKey] = line.split(" ");
+      if (!isOpponentChoice(opponentKey) || !isPlayerChoice(playerKey)) {
+        throw new Error(`Invalid line: ${opponentKey} ${playerKey}`);
+      }
+      return part1Lookup[opponentKey][playerKey];
+    });
+    return turns.reduce((prev, curr) => prev + curr);
+  }
+
+  public get part2Solution(): number {
+    const turns = this.lines.map((line) => {
+      const [opponentKey, playerKey] = line.split(" ");
+      if (!isOpponentChoice(opponentKey) || !isPlayerChoice(playerKey)) {
+        throw new Error(`Invalid line: ${opponentKey} ${playerKey}`);
+      }
+      return part2Lookup[opponentKey][playerKey];
+    });
+    return turns.reduce((prev, curr) => prev + curr);
+  }
 }
+
+export const Solver = Day2;
+export const handler = handlerBase(Solver);

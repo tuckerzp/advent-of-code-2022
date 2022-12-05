@@ -1,4 +1,4 @@
-import { solvePart1, solvePart2 } from "./solution";
+import { Solver } from "./solution";
 import path from "path";
 import fs from "fs";
 
@@ -7,25 +7,25 @@ function readTestData(name: string): string {
     .readFileSync(path.join(__dirname, "__inputs__", `${name}.txt`))
     .toString("utf8");
 }
-const sample = readTestData("sample");
-const input = readTestData("personal");
+const sample = new Solver(readTestData("sample"));
+const input = new Solver(readTestData("personal"));
 
 describe("Day N, Part 1", () => {
   it("returns the correct result for sample input", () => {
-    expect(solvePart1(sample)).toBe("");
+    expect(sample.part1Solution).toBe(undefined);
   });
 
   it("returns the correct result for personal input", () => {
-    expect(solvePart1(input)).toBe("");
+    expect(input.part1Solution).toBe(undefined);
   });
 });
 
 describe("Day N, Part 2", () => {
   it("returns the correct result for sample input", () => {
-    expect(solvePart2(sample)).toBe(undefined);
+    expect(sample.part2Solution).toBe(undefined);
   });
 
   it("return the correct result for personal input", () => {
-    expect(solvePart2(input)).toBe(undefined);
+    expect(input.part2Solution).toBe(undefined);
   });
 });

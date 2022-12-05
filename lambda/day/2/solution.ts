@@ -1,5 +1,5 @@
-import { DailySolution, handlerBase } from "../../handler";
-import { splitToLines } from "../../util";
+import { DailySolution, handlerBase } from '../../handler';
+import { splitToLines } from '../../util';
 
 const enum Outcome {
   WIN = 6,
@@ -13,13 +13,10 @@ const enum Choice {
   SCISSORS = 3,
 }
 
-type OpponentChoice = "A" | "B" | "C";
-type PlayerChoice = "X" | "Y" | "Z";
-type DesiredOutcome = "X" | "Y" | "Z";
-type SolutionLookup = Record<
-  OpponentChoice,
-  Record<PlayerChoice | DesiredOutcome, number>
->;
+type OpponentChoice = 'A' | 'B' | 'C';
+type PlayerChoice = 'X' | 'Y' | 'Z';
+type DesiredOutcome = 'X' | 'Y' | 'Z';
+type SolutionLookup = Record<OpponentChoice, Record<PlayerChoice | DesiredOutcome, number>>;
 
 const part1Lookup: SolutionLookup = {
   // ROCK
@@ -67,10 +64,10 @@ const part2Lookup: SolutionLookup = {
 };
 
 function isOpponentChoice(str: string): str is OpponentChoice {
-  return ["A", "B", "C"].includes(str);
+  return ['A', 'B', 'C'].includes(str);
 }
 function isPlayerChoice(str: string): str is PlayerChoice & DesiredOutcome {
-  return ["X", "Y", "Z"].includes(str);
+  return ['X', 'Y', 'Z'].includes(str);
 }
 
 class Day2 extends DailySolution {
@@ -82,7 +79,7 @@ class Day2 extends DailySolution {
 
   public get part1Solution(): number {
     const turns = this.lines.map((line) => {
-      const [opponentKey, playerKey] = line.split(" ");
+      const [opponentKey, playerKey] = line.split(' ');
       if (!isOpponentChoice(opponentKey) || !isPlayerChoice(playerKey)) {
         throw new Error(`Invalid line: ${opponentKey} ${playerKey}`);
       }
@@ -93,7 +90,7 @@ class Day2 extends DailySolution {
 
   public get part2Solution(): number {
     const turns = this.lines.map((line) => {
-      const [opponentKey, playerKey] = line.split(" ");
+      const [opponentKey, playerKey] = line.split(' ');
       if (!isOpponentChoice(opponentKey) || !isPlayerChoice(playerKey)) {
         throw new Error(`Invalid line: ${opponentKey} ${playerKey}`);
       }

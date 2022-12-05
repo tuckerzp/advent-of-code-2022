@@ -1,11 +1,11 @@
-import { DailySolution, handlerBase } from "../../handler";
+import { DailySolution, handlerBase } from '../../handler';
 
 class Elf {
   public readonly index: number;
   private readonly foods: number[] = [];
 
   public static fromInput(input: string): Elf[] {
-    const lines = input.split("\n").map((line) => line.trim());
+    const lines = input.split('\n').map((line) => line.trim());
     const elves: Elf[] = [new Elf(1)];
     for (const line of lines) {
       if (!line) {
@@ -38,9 +38,9 @@ class Day1 extends DailySolution {
   }
 
   public get part1Solution(): number {
-    return this.elves.reduce((prev, curr) =>
-      prev.totalCalories > curr.totalCalories ? prev : curr
-    ).totalCalories;
+    return this.elves
+      .reduce((prev, curr) => (prev.totalCalories > curr.totalCalories ? prev : curr))
+      .totalCalories;
   }
 
   public get part2Solution(): number | undefined {

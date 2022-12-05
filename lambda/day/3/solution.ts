@@ -1,16 +1,16 @@
-import { DailySolution, handlerBase } from "../../handler";
-import { splitToLines } from "../../util";
+import { DailySolution, handlerBase } from '../../handler';
+import { splitToLines } from '../../util';
 
 function itemPriority(item: string): number {
   if (item.length !== 1) {
     throw new Error(`Invalid item: ${item}`);
   }
   const code = item.charCodeAt(0);
-  if (item >= "a" && item <= "z") {
-    return code - "a".charCodeAt(0) + 1;
+  if (item >= 'a' && item <= 'z') {
+    return code - 'a'.charCodeAt(0) + 1;
   }
-  if (item >= "A" && item <= "Z") {
-    return code - "A".charCodeAt(0) + 27;
+  if (item >= 'A' && item <= 'Z') {
+    return code - 'A'.charCodeAt(0) + 27;
   }
   throw new Error(`Invalid item: ${item}`);
 }
@@ -31,7 +31,7 @@ class ElfGroup {
         return item;
       }
     }
-    throw new Error("There is not a common item in the group");
+    throw new Error('There is not a common item in the group');
   }
 }
 
@@ -50,7 +50,7 @@ class Rucksack {
         return item;
       }
     }
-    throw new Error("There are not any common items");
+    throw new Error('There are not any common items');
   }
 }
 

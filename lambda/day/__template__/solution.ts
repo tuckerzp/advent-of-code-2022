@@ -1,4 +1,4 @@
-import { DailySolution, handlerBase } from "../../handler";
+import { DailySolution, handlerBase } from '../../handler';
 
 export class Solver extends DailySolution {
   // eslint-disable-next-line no-useless-constructor

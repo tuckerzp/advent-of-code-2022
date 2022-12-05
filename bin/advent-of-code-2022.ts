@@ -1,10 +1,10 @@
 #!/usr/bin/env node
-import "source-map-support/register";
-import * as cdk from "aws-cdk-lib";
-import { AdventOfCode2022Stack } from "../lib/advent-of-code-2022-stack";
+import 'source-map-support/register';
+import * as cdk from 'aws-cdk-lib';
+import { AdventOfCode2022Stack } from '../lib/advent-of-code-2022-stack';
 
 const app = new cdk.App();
-new AdventOfCode2022Stack(app, "AdventOfCode2022Stack", {
+new AdventOfCode2022Stack(app, 'AdventOfCode2022Stack', {
   /* If you don't specify 'env', this stack will be environment-agnostic.
    * Account/Region-dependent features and context lookups will not work,
    * but a single synthesized template can be deployed anywhere. */

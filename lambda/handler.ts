@@ -1,8 +1,8 @@
-import middy from "@middy/core";
-import { Tracer, captureLambdaHandler } from "@aws-lambda-powertools/tracer";
-import { Logger, injectLambdaContext } from "@aws-lambda-powertools/logger";
-import type { APIGatewayProxyHandlerV2 } from "aws-lambda";
-import { INVALID_INPUT, Response, UNEXPECTED_ERROR } from "./responses";
+import middy from '@middy/core';
+import { Tracer, captureLambdaHandler } from '@aws-lambda-powertools/tracer';
+import { Logger, injectLambdaContext } from '@aws-lambda-powertools/logger';
+import type { APIGatewayProxyHandlerV2 } from 'aws-lambda';
+import { formatSolution, INVALID_INPUT, UNEXPECTED_ERROR } from './responses';
 const tracer = new Tracer();
 const logger = new Logger();
 
@@ -16,26 +16,48 @@ export interface DailySolutionConstructor {
   new (input: string): DailySolution;
 }
 
+/**
+ * Handle solving a specific day's challenge.
+ *
+ * This class should be specialized with the solution for each day. The implementation
+ * should be returned by `part1Solution` and `part2Solution` respectively. These methods
+ * are not abstract; by default they return `undefined` until the solution is
+ * implemented.
+ */
 export abstract class DailySolution {
+  /**
+   * The input that was provided by the user.
+   */
   public readonly rawInput: string;
 
   constructor(input: string) {
     this.rawInput = input;
   }
 
-  public get part1Solution(): number | undefined {
+  /**
+   * The solution to the first part of the day's challenge.
+   */
+  public get part1Solution(): number | string | undefined {
     return undefined;
   }
 
-  public get part2Solution(): number | undefined {
+  /**
+   * The solution to the second part of the day's challenge.
+   */
+  public get part2Solution(): number | string | undefined {
     return undefined;
   }
 }
 
-export function handlerBase(
-  Solver: DailySolutionConstructor
-): APIGatewayProxyHandlerV2<Response> {
-  const fn: APIGatewayProxyHandlerV2<Response> = async (event, context) => {
+/**
+ * Wrap the daily solution in a function suitable to act as a Lambda function handler.
+ *
+ * This will properly pass the HTTP request body to the `input` parameter of the
+ * given {@link DailySolution}'s constructor and will properly initialize the instance.
+ * Additionally, middleware are added to support logging and tracing.
+ */
+export function handlerBase(Solver: DailySolutionConstructor): APIGatewayProxyHandlerV2 {
+  const fn: APIGatewayProxyHandlerV2 = async(event, context) => {
     if (!event.body) {
       return {
         statusCode: 400,
@@ -46,16 +68,12 @@ export function handlerBase(
       const solver = new Solver(event.body);
       return {
         statusCode: 200,
-        body: JSON.stringify({
-          input: solver.rawInput,
-          solution: {
-            part1: solver.part1Solution,
-            part2: solver.part2Solution,
-          },
-        }),
+        body: JSON.stringify(
+          formatSolution(solver.rawInput, solver.part1Solution, solver.part2Solution)
+        ),
       };
     } catch (err) {
-      logger.error("Unexpected error in solution", err as Error);
+      logger.error('Unexpected error in solution', err as Error);
       return {
         statusCode: 500,
         body: JSON.stringify(UNEXPECTED_ERROR),

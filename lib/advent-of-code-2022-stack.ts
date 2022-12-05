@@ -1,34 +1,31 @@
-import * as cdk from "aws-cdk-lib";
-import { Construct } from "constructs";
-import * as apigw from "@aws-cdk/aws-apigatewayv2-alpha";
-import { HttpLambdaIntegration } from "@aws-cdk/aws-apigatewayv2-integrations-alpha";
-import * as nodejs from "aws-cdk-lib/aws-lambda-nodejs";
-import * as lambda from "aws-cdk-lib/aws-lambda";
-import { AdventOfCodeDay } from "./advent-of-code-day";
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import * as apigw from '@aws-cdk/aws-apigatewayv2-alpha';
+import { HttpLambdaIntegration } from '@aws-cdk/aws-apigatewayv2-integrations-alpha';
+import * as nodejs from 'aws-cdk-lib/aws-lambda-nodejs';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import { AdventOfCodeDay } from './advent-of-code-day';
 
 export class AdventOfCode2022Stack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
-    const defaultNotImplemented = new nodejs.NodejsFunction(
-      this,
-      "NotImplemented",
-      {
-        entry: "lambda/not-implemented.ts",
-        runtime: lambda.Runtime.NODEJS_18_X,
-      }
-    );
+    const defaultNotImplemented = new nodejs.NodejsFunction(this, 'NotImplemented', {
+      entry: 'lambda/not-implemented.ts',
+      runtime: lambda.Runtime.NODEJS_18_X,
+    });
     const defaultIntegration = new HttpLambdaIntegration(
-      "NotImplementedIntegration",
+      'NotImplementedIntegration',
       defaultNotImplemented
     );
-    const httpApi = new apigw.HttpApi(this, "Api", {
+    const httpApi = new apigw.HttpApi(this, 'Api', {
       defaultIntegration,
     });
     const supportedDays = [
-      { day: 1, name: "Calorie Counting" },
-      { day: 2, name: "Rock Paper Scissors" },
-      { day: 3, name: "Rucksack Reorganization" },
-      { day: 4, name: "Camp Cleanup" },
+      { day: 1, name: 'Calorie Counting' },
+      { day: 2, name: 'Rock Paper Scissors' },
+      { day: 3, name: 'Rucksack Reorganization' },
+      { day: 4, name: 'Camp Cleanup' },
+      { day: 5, name: 'Supply Stacks' },
     ];
     supportedDays.map(
       ({ day, name }) =>
@@ -38,6 +35,6 @@ export class AdventOfCode2022Stack extends cdk.Stack {
           api: httpApi,
         })
     );
-    new cdk.CfnOutput(this, "ApiUrl", { value: httpApi.apiEndpoint });
+    new cdk.CfnOutput(this, 'ApiUrl', { value: httpApi.apiEndpoint });
   }
 }

@@ -13,6 +13,8 @@
     "lint:fix": "npm run lint -- --fix"
   },
   "devDependencies": {
+    "@aws-cdk/integ-runner": "^1.181.1",
+    "@aws-cdk/integ-tests-alpha": "^2.53.0-alpha.0",
     "@types/aws-lambda": "^8.10.109",
     "@types/babel__traverse": "7.18.3",
     "@types/jest": "^29.2.3",

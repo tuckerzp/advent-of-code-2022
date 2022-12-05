@@ -1,9 +1,8 @@
-import * as cdk from "aws-cdk-lib";
-import { Construct } from "constructs";
-import * as apigw from "@aws-cdk/aws-apigatewayv2-alpha";
-import { HttpLambdaIntegration } from "@aws-cdk/aws-apigatewayv2-integrations-alpha";
-import * as nodejs from "aws-cdk-lib/aws-lambda-nodejs";
-import * as lambda from "aws-cdk-lib/aws-lambda";
+import { Construct } from 'constructs';
+import * as apigw from '@aws-cdk/aws-apigatewayv2-alpha';
+import { HttpLambdaIntegration } from '@aws-cdk/aws-apigatewayv2-integrations-alpha';
+import * as nodejs from 'aws-cdk-lib/aws-lambda-nodejs';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
 
 export interface AdventOfCodeDayProps {
   readonly day: number;
@@ -23,10 +22,7 @@ export class AdventOfCodeDay extends Construct {
     props.api.addRoutes({
       methods: [apigw.HttpMethod.POST],
       path: `/day/${props.day}/solution`,
-      integration: new HttpLambdaIntegration(
-        `SolutionIntegrationDay${props.day}`,
-        fn
-      ),
+      integration: new HttpLambdaIntegration(`SolutionIntegrationDay${props.day}`, fn),
     });
   }
 }

@@ -1,11 +1,11 @@
-import { DailySolution, handlerBase } from "../../handler";
-import { splitToLines } from "../../util";
+import { DailySolution, handlerBase } from '../../handler';
+import { splitToLines } from '../../util';
 
 class Assignment {
   public readonly start: number;
   public readonly end: number;
   constructor(input: string) {
-    [this.start, this.end] = input.split("-").map((item) => Number(item));
+    [this.start, this.end] = input.split('-').map((item) => Number(item));
   }
 
   public contains(other: Assignment) {
@@ -34,17 +34,17 @@ class Day4 extends DailySolution {
   constructor(input: string) {
     super(input);
     this.assignments = splitToLines(input)
-      .map((line) => line.split(","))
+      .map((line) => line.split(','))
       .map(([assignment1, assignment2]) => [
         new Assignment(assignment1),
-        new Assignment(assignment2),
-      ]);
+        new Assignment(assignment2)]
+      );
   }
 
   public get part1Solution(): number {
-    return this.assignments.filter(
-      (pair) => pair[0].contains(pair[1]) || pair[1].contains(pair[0])
-    ).length;
+    return this.assignments
+      .filter((pair) => pair[0].contains(pair[1]) || pair[1].contains(pair[0]))
+      .length;
   }
 
   public get part2Solution(): number {

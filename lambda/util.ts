@@ -37,6 +37,6 @@ export type SplitToLinesOpts = {
 export function splitToLines(input: string, opts?: SplitToLinesOpts): string[] {
   return input
     .split(opts?.separator ?? '\n')
-    .map((line) => opts?.keepEmptyLines ? line : line.trim())
+    .map((line) => opts?.keepWhitespaceAtEnd ? line : line.trim())
     .filter((line) => line.length > 0 || opts?.keepEmptyLines);
 }

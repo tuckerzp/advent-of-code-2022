@@ -55,8 +55,7 @@ class State {
   public readonly crates: string[][];
 
   constructor(stacks: number, initial: readonly string[]) {
-    this.crates = [];
-    for (let i = 0; i < stacks; i++) { this.crates.push([]); }
+    this.crates = [...Array(stacks)].map(() => []);
     for (const line of initial) {
       for (let i = 0; i < stacks; i++) {
         const value = line[2 + (4 * i) - 1];
@@ -79,26 +78,22 @@ class State {
 
   public toString(): string {
     const singleCrate = (crate: string | undefined) => crate ? `[${crate}]` : '   ';
-    const countLine = () => [...Array(this.crates.length)]
+    const countLine = [...Array(this.crates.length)]
       .map((_, idx) => ` ${idx + 1} `)
       .join(' ');
-    const eachLine = () => {
-      let any = true;
-      let idx = 0;
-      const lines = [];
-      while (any) {
-        const line = this.crates.map((stack) => singleCrate(stack[idx])).join(' ');
-        if (line.trim().length) {
-          any = true;
-          lines.push(line);
-        } else {
-          any = false;
-        }
-        idx += 1;
-      }
-      return lines;
+    const stackRows = () => {
+      const lines: string[] = [];
+      do {
+        const line = this.crates.map((stack) => singleCrate(stack[lines.length])).join(' ');
+        lines.push(line);
+      } while (lines.at(-1)?.trim().length);
+      // Discard the last line because it will be entirely empty
+      return lines.slice(0, -1);
     };
-    const outputLines: string[] = [countLine(), ...eachLine()];
+    // The output is initially built in "reverse" with the stacks growing "down" instead
+    // of up as shown in the problem description. This is easier to generate. So the lines
+    // need to be reversed to match the input format.
+    const outputLines: string[] = [countLine, ...stackRows()];
     return outputLines.reverse().join('\n');
   }
 }

@@ -10,20 +10,20 @@ const input = new Solver(readTestData('personal'));
 
 describe('Day 1, Part 1', () => {
   it('returns the correct result for sample input', () => {
-    expect(sample.part1Solution).toBe(24000);
+    expect(sample.part1Solution).toBe(undefined);
   });
 
   it('returns the correct result for personal input', () => {
-    expect(input.part1Solution).toBe(67027);
+    expect(input.part1Solution).toBe(undefined);
   });
 });
 
 describe('Day 1, Part 2', () => {
   it('returns the correct result for sample input', () => {
-    expect(sample.part2Solution).toBe(45000);
+    expect(sample.part2Solution).toBe(undefined);
   });
 
   it('return the correct result for personal input', () => {
-    expect(input.part2Solution).toBe(197291);
+    expect(input.part2Solution).toBe(undefined);
   });
 });

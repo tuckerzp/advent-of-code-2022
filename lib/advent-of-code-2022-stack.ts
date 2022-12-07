@@ -22,11 +22,11 @@ export class AdventOfCode2022Stack extends cdk.Stack {
     });
     const supportedDays = [
       { day: 1, name: 'Calorie Counting' },
-      { day: 2, name: 'Rock Paper Scissors' },
-      { day: 3, name: 'Rucksack Reorganization' },
-      { day: 4, name: 'Camp Cleanup' },
-      { day: 5, name: 'Supply Stacks' },
-      { day: 6, name: 'Tuning Trouble' },
+      // { day: 2, name: 'Rock Paper Scissors' },
+      // { day: 3, name: 'Rucksack Reorganization' },
+      // { day: 4, name: 'Camp Cleanup' },
+      // { day: 5, name: 'Supply Stacks' },
+      // { day: 6, name: 'Tuning Trouble' },
     ];
     supportedDays.map(
       ({ day, name }) =>

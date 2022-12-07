@@ -8,7 +8,7 @@ function readTestData(name: string): string {
 const sample = new Solver(readTestData('sample'));
 const input = new Solver(readTestData('personal'));
 
-describe('Day N, Part 1', () => {
+describe('Day 6, Part 1', () => {
   it('returns the correct result for sample input', () => {
     expect(sample.part1Solution).toBe(7);
   });
@@ -18,7 +18,7 @@ describe('Day N, Part 1', () => {
   });
 });
 
-describe('Day N, Part 2', () => {
+describe('Day 6, Part 2', () => {
   it('returns the correct result for sample input', () => {
     expect(sample.part2Solution).toBe(19);
   });
@@ -28,7 +28,7 @@ describe('Day N, Part 2', () => {
   });
 });
 
-describe('Additional examples', () => {
+describe('Day 6, Additional examples', () => {
   it.each([
     {
       input: 'bvwbjplbgvbhsrlpgdmjqwftvncz',

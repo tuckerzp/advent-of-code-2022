@@ -9,8 +9,8 @@ import { DailySolution, handlerBase } from '../../handler';
  * values again).
  *
  * @param str the string to scan for duplicates
- * @param the last index where a pair of duplicate values starts (or -1 if no item appears
- *        two or more times).
+ * @returns the last index where a pair of duplicate values starts (or -1 if no item appears
+ *          two or more times).
  */
 function startOfLastDuplicatePair(str: string): number {
   const indices: Record<string, number[]> = {};
@@ -37,6 +37,7 @@ function firstUniqueRun(datastream: string, count: number): number {
 
 export class Day6 extends DailySolution {
   private readonly datastream: string;
+
   constructor(input: string) {
     super(input);
     this.datastream = this.rawInput.trim();

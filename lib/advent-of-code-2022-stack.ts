@@ -26,6 +26,7 @@ export class AdventOfCode2022Stack extends cdk.Stack {
       { day: 3, name: 'Rucksack Reorganization' },
       { day: 4, name: 'Camp Cleanup' },
       { day: 5, name: 'Supply Stacks' },
+      { day: 6, name: 'Tuning Trouble' },
     ];
     supportedDays.map(
       ({ day, name }) =>

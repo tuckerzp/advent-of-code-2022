@@ -43,7 +43,7 @@
     "@aws-lambda-powertools/tracer": "^1.5.0",
     "@middy/core": "^4.0.2",
     "aws-cdk-lib": "2.53.0",
-    "constructs": "^10.1.181",
+    "constructs": "^10.1.182",
     "esbuild": "^0.15.18",
     "source-map-support": "^0.5.21"
   }

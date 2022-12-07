@@ -19,13 +19,7 @@ function startOfLastDuplicatePair(str: string): number {
     indices[str.charAt(i)].push(i);
   }
   return Object.values(indices)
-    .filter((list) => list.length > 1)
-    // It is safe to assert this isn't null because we can guarantee that the list
-    // will have at least two elements (that's what the `filter` is for).
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    .map((list) => list.at(-2)!)
-    .sort((a, b) => a - b)
-    .at(-1) ?? -1;
+    .reduce((last, duplicates) => Math.max(last, duplicates.at(-2) ?? -1), -1);
 }
 
 function firstUniqueRun(datastream: string, count: number): number {
